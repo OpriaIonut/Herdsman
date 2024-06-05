@@ -1,0 +1,27 @@
+{
+  "name": "herdsman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve --config ./src/client/webpack/webpack.dev.js",
+    "build": "webpack --config ./src/client/webpack/webpack.prod.js && http-server ./dist/client",
+    "analyze": "webpack --config ./src/client/webpack/webpack.analyze.js"
+  },
+  "keywords": [],
+  "author": "Ionut Opria",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/pixi.js": "^5.0.0",
+    "http-server": "^14.1.1",
+    "pixi.js": "^8.1.6",
+    "toggle-fullscreen": "^0.4.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.76.3",
+    "webpack-bundle-analyzer": "^4.7.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
+  }
+}
