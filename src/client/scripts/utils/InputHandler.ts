@@ -6,7 +6,7 @@ export class InputHandler
 
     constructor()
     {
-        window.addEventListener("click", (e) => { this._onClickHandler(e); });
+        window.addEventListener("click", (e) => { this.onClickHandler(e); });
     }
 
     public subscribeOnClick(callback: EventCallback): void 
@@ -18,7 +18,7 @@ export class InputHandler
         this.listeners = this.listeners.filter(listener => listener !== callback);
     }
 
-    private _onClickHandler(e: MouseEvent)
+    private onClickHandler(e: MouseEvent)
     {
         this.listeners.forEach(listener => listener(e.clientX, e.clientY));
     }

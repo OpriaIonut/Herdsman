@@ -4,12 +4,20 @@ import { Vector2 } from "../../types";
 export class CircleGfx
 {
     private _circle: Graphics;
+    private _radius: number;
 
     constructor(bgColor: string, pos: Vector2, radius: number)
     {
+        this._radius = radius;
         this._circle = new Graphics();
         this._circle.circle(0, 0, radius).fill({ color: bgColor });
         this.setPosition(pos);
+    }
+
+    public setColor(color: string)
+    {
+        this._circle.clear();
+        this._circle.circle(0, 0, this._radius).fill({ color: color });
     }
 
     public getGfx() { return this._circle; }

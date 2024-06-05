@@ -1,4 +1,4 @@
-import { Vector2 } from "../../types";
+import { Rect, Vector2 } from "../../types";
 
 export class MathUtils
 {
@@ -10,5 +10,27 @@ export class MathUtils
             vector.y /= length;
         }
         return vector;
+    }
+
+    static rectContainsPoint(rect: Rect, point: Vector2)
+    {
+        console.log(rect, point);
+        return  point.x >= rect.x && 
+                point.x <= rect.x + rect.width && 
+                point.y >= rect.y && 
+                point.y <= rect.y + rect.height;
+    }
+
+    static rectContainsCircle(rect: Rect, point: Vector2, radius: number)
+    {
+        const left = point.x - radius;
+        const right = point.x + radius;
+        const top = point.y - radius;
+        const bottom = point.y + radius;
+
+        return  right >= rect.x && 
+                left <= rect.x + rect.width && 
+                bottom >= rect.y && 
+                top <= rect.y + rect.height;
     }
 }

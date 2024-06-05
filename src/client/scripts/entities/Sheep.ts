@@ -1,9 +1,9 @@
-import { Vector2 } from "../types";
-import { MathUtils } from "./utils/MathUtils";
-import { IMover } from "./interfaces/IMover";
-import { CircleGfx } from "./visuals/CircleGfx";
+import { Vector2 } from "../../types";
+import { MathUtils } from "../utils/MathUtils";
+import { IMover } from "../interfaces/IMover";
+import { CircleGfx } from "../visuals/CircleGfx";
 
-export class Player implements IMover
+export class Sheep implements IMover
 {
     public position = { x: 0, y: 0 };
     public destination = { x: 0, y: 0 };
@@ -47,4 +47,5 @@ export class Player implements IMover
     }
 
     public getGfx() { return this._gfx.getGfx(); }
+    public isInYard() { return false; }
 }

@@ -1,14 +1,15 @@
 import { Graphics } from "pixi.js";
-import { Vector2 } from "../../types";
+import { Rect, Vector2 } from "../../types";
 
 export class RectangleGfx
 {
     private _rect: Graphics;
 
-    constructor(bgColor: string, pos: Vector2, width: number, height: number)
+    constructor(bgColor: string, dimensions: Rect)
     {
         this._rect = new Graphics();
-        this._rect.rect(pos.x, pos.y, width, height).fill({ color: bgColor });
+        this._rect.rect(0, 0, dimensions.width, dimensions.height).fill({ color: bgColor });
+        this.setPosition({ x: dimensions.x, y: dimensions.y });
     }
 
     public getGfx() { return this._rect; }
@@ -17,5 +18,14 @@ export class RectangleGfx
     {
         this._rect.x = pos.x;
         this._rect.y = pos.y;
+    }
+
+    public getDimensions(): Rect { 
+        return { 
+            x: this._rect.x, 
+            y: this._rect.y,
+            width: this._rect.width,
+            height: this._rect.height
+        };
     }
 }
