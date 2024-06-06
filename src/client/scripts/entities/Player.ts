@@ -58,6 +58,10 @@ export class Player implements IMover
         this.position.x += moveDir.x * this.speed * deltaTime;
         this.position.y += moveDir.y * this.speed * deltaTime;
         
+        //Update the position of the graphics for it
+        this._gfx.x = this.position.x;
+        this._gfx.y = this.position.y;
+
         //As a small addition, flip the sprite to face the direction that the player is moving towards
         if((this._gfx.scale.x > 0 && this.position.x < this.destination.x) ||
             (this._gfx.scale.x < 0 && this.position.x > this.destination.x))
