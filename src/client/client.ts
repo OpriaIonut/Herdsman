@@ -12,8 +12,8 @@ game.init("#304f31", "gameCanvas");
 export const yardCounter = new YardCounter();
 yardCounter.init();
 
+//const sheepSpawner = new SheepSpawner(100, { min: 0.1, max: 0.3 }); //Uncomment this line to check the patrolling behavior
 const sheepSpawner = new SheepSpawner(10, { min: 1, max: 3 });
-
 
 const yardWidth = window.innerWidth / 3;
 const yardHeight = window.innerHeight / 3;

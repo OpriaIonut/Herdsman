@@ -34,6 +34,43 @@ export class MathUtils
                 top <= rect.y + rect.height;
     }
 
+    static pathIntersectsRect(pointA: Vector2, pointB: Vector2, rect: Rect)
+    {
+        let lineMinX = Math.min(pointA.x, pointB.x);
+        let lineMaxX = Math.max(pointA.x, pointB.x);
+        let lineMinY = Math.min(pointA.y, pointB.y);
+        let lineMaxY = Math.max(pointA.y, pointB.y);
+
+        let rectMinX = rect.x;
+        let rectMaxX = rect.x + rect.width;
+        let rectMinY = rect.y;
+        let rectMaxY = rect.y + rect.height;
+
+        return !(lineMaxX < rectMinX || lineMinX > rectMaxX || lineMaxY < rectMinY || lineMinY > rectMaxY);
+    }
+
+    static pathIntersectsRectWithRadius(pointA: Vector2, pointB: Vector2, rect: Rect, radius: number)
+    {
+        let inflatedRect = {
+            x: rect.x - radius,
+            y: rect.y - radius,
+            width: rect.width + 2 * radius,
+            height: rect.height + 2 * radius
+        };
+
+        let lineMinX = Math.min(pointA.x, pointB.x);
+        let lineMaxX = Math.max(pointA.x, pointB.x);
+        let lineMinY = Math.min(pointA.y, pointB.y);
+        let lineMaxY = Math.max(pointA.y, pointB.y);
+
+        let rectMinX = inflatedRect.x;
+        let rectMaxX = inflatedRect.x + inflatedRect.width;
+        let rectMinY = inflatedRect.y;
+        let rectMaxY = inflatedRect.y + inflatedRect.height;
+
+        return !(lineMaxX < rectMinX || lineMinX > rectMaxX || lineMaxY < rectMinY || lineMinY > rectMaxY);
+    }
+
     static distanceTo(a: Vector2, b: Vector2)
     {
         return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));

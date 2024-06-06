@@ -12,10 +12,16 @@ export class Sheep implements IMover, IAgentBehavior
     public speed = 10;
     public agentState: AgentState = AgentState.Patrolling;
 
+    private _initialPosition: Vector2;
     private _reachThreshold = 10.0;
     private _radius: number;
     private _gfx: CircleGfx;
 
+    private _aiPatrollingConfig = {
+        cooldown: 3,
+        waitTime: 3,
+        patrollingRadius: 400
+    }
     private _aiFollowThreshold: number = 100;
 
     private static _agentsFollowingPlayer: number = 0;
@@ -28,6 +34,7 @@ export class Sheep implements IMover, IAgentBehavior
         this.speed = speed;
         this._radius = radius;
 
+        this._initialPosition = { x: pos.x, y: pos.y };
         this._gfx = new CircleGfx(bgColor, this.position, radius, 1);
     }
     
@@ -36,7 +43,7 @@ export class Sheep implements IMover, IAgentBehavior
         switch(this.agentState)
         {
             case AgentState.Patrolling:
-                this.aiPatrollingBehavior();
+                this.aiPatrollingBehavior(deltaTime);
                 break;
             case AgentState.FollowingPlayer:
                 this.aiFollowingPlayerBehavior();
@@ -75,7 +82,7 @@ export class Sheep implements IMover, IAgentBehavior
     public getGfx() { return this._gfx.getGfx(); }
     public isInYard() { return this.agentState == AgentState.InYard; }
 
-    private aiPatrollingBehavior()
+    private aiPatrollingBehavior(deltaTime: number)
     {
         if(Sheep._agentsFollowingPlayer >= Sheep._maxAgentsFollowingPlayer)
             return;
@@ -86,6 +93,35 @@ export class Sheep implements IMover, IAgentBehavior
             this.agentState = AgentState.FollowingPlayer;
             Sheep._agentsFollowingPlayer++;
         }
+        else if(this.reachedDestination())
+        {
+            this._aiPatrollingConfig.waitTime -= deltaTime;
+            if(this._aiPatrollingConfig.waitTime <= 0)
+            {
+                this._aiPatrollingConfig.waitTime = this._aiPatrollingConfig.cooldown;
+
+                let randomDestination = this.getPatrollingPosition();
+                this.setDetination(randomDestination);
+            }
+        }
+    }
+
+    private getPatrollingPosition(): Vector2
+    {
+        let randAngle = Math.random() * Math.PI * 2;
+        let randRadius = (Math.random() - 0.5) * 2 * this._aiPatrollingConfig.patrollingRadius;
+
+        let randomDestination: Vector2 = {
+            x: this._initialPosition.x + Math.sin(randAngle) * randRadius,
+            y: this._initialPosition.y + Math.cos(randAngle) * randRadius
+        };
+        if(MathUtils.rectContainsCircle(yardArea.getDimensions(), randomDestination, this._radius) ||
+            MathUtils.pathIntersectsRectWithRadius(this.position, randomDestination, yardArea.getDimensions(), this._radius) ||
+            randomDestination.x < 0 || randomDestination.x > window.innerWidth || randomDestination.y < 0 || randomDestination.y > window.innerHeight)
+        {
+            return this.getPatrollingPosition();
+        }
+        return randomDestination;
     }
 
     private aiFollowingPlayerBehavior()
