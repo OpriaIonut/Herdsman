@@ -2,6 +2,7 @@ import { Vector2 } from "../../types";
 import { MathUtils } from "../utils/MathUtils";
 import { IMover } from "../interfaces/IMover";
 import { CircleGfx } from "../visuals/CircleGfx";
+import { Assets, Sprite } from "pixi.js";
 
 export class Player implements IMover
 {
@@ -11,7 +12,7 @@ export class Player implements IMover
 
     private _radius: number;
     private _reachThreshold = 10.0;
-    private _gfx: CircleGfx;
+    private _gfx: Sprite;
 
     constructor(bgColor: string, pos: Vector2, radius: number, speed: number)
     {
@@ -20,7 +21,21 @@ export class Player implements IMover
         this.speed = speed;
         this._radius = radius;
 
-        this._gfx = new CircleGfx(bgColor, this.position, radius, 2);
+        //this._gfx = new CircleGfx(bgColor, this.position, radius, 2);
+        this._gfx = new Sprite();
+        this.loadSprite();
+    }
+
+    private async loadSprite()
+    {
+        let texture = await Assets.load("ui/Player.png");
+        this._gfx.texture = texture;
+        this._gfx.zIndex = 2;
+        this._gfx.position.x = this.position.x;
+        this._gfx.position.y = this.position.y;
+        this._gfx.width = this._radius * 3;
+        this._gfx.height = this._radius * 3;
+        this._gfx.anchor.set(0.5);
     }
 
     public setDetination(pos: Vector2): void 
@@ -39,7 +54,14 @@ export class Player implements IMover
         this.position.x += moveDir.x * this.speed * deltaTime;
         this.position.y += moveDir.y * this.speed * deltaTime;
         
-        this._gfx.setPosition(this.position);
+        this._gfx.x = this.position.x;
+        this._gfx.y = this.position.y;
+
+        if((this._gfx.scale.x > 0 && this.position.x < this.destination.x) ||
+            (this._gfx.scale.x < 0 && this.position.x > this.destination.x))
+        {
+            this._gfx.scale.x *= -1;
+        }
     }
 
     public reachedDestination(): boolean 
@@ -50,6 +72,5 @@ export class Player implements IMover
 
     public getRadius() { return this._radius; }
     public getPosition() { return this.position; }
-    public setColor(color: string) { this._gfx.setColor(color); }
-    public getGfx() { return this._gfx.getGfx(); }
+    public getGfx() { return this._gfx; }
 }

@@ -4,6 +4,7 @@ import { IMover } from "../interfaces/IMover";
 import { CircleGfx } from "../visuals/CircleGfx";
 import { AgentState, IAgentBehavior } from "../interfaces/IAgentBehavior";
 import { player, yardArea, yardCounter } from "../../client";
+import { Assets, Sprite, Texture } from "pixi.js";
 
 export class Sheep implements IMover, IAgentBehavior
 {
@@ -15,7 +16,8 @@ export class Sheep implements IMover, IAgentBehavior
     private _initialPosition: Vector2;
     private _reachThreshold = 10.0;
     private _radius: number;
-    private _gfx: CircleGfx;
+    //private _gfx: CircleGfx;
+    private _gfx: Sprite;
 
     private _aiPatrollingConfig = {
         cooldown: 3,
@@ -26,6 +28,7 @@ export class Sheep implements IMover, IAgentBehavior
 
     private static _agentsFollowingPlayer: number = 0;
     private static _maxAgentsFollowingPlayer: number = 5;
+    private static sheepTexture?: Texture;
 
     constructor(bgColor: string, pos: Vector2, radius: number, speed: number)
     {
@@ -35,9 +38,25 @@ export class Sheep implements IMover, IAgentBehavior
         this._radius = radius;
 
         this._initialPosition = { x: pos.x, y: pos.y };
-        this._gfx = new CircleGfx(bgColor, this.position, radius, 1);
+        //this._gfx = new CircleGfx(bgColor, this.position, radius, 1);
+
+        this._gfx = new Sprite();
+        this.loadSprite();
     }
     
+    private async loadSprite()
+    {
+        if(Sheep.sheepTexture == undefined)
+            Sheep.sheepTexture = await Assets.load("ui/Sheep.png");
+        this._gfx.texture = Sheep.sheepTexture as Texture;
+        this._gfx.zIndex = 1;
+        this._gfx.position.x = this.position.x;
+        this._gfx.position.y = this.position.y;
+        this._gfx.width = this._radius * 3;
+        this._gfx.height = this._radius * 3;
+        this._gfx.anchor.set(0.5);
+    }
+
     public updateAgent(deltaTime: number): void 
     {
         switch(this.agentState)
@@ -70,7 +89,14 @@ export class Sheep implements IMover, IAgentBehavior
         this.position.x += moveDir.x * this.speed * deltaTime;
         this.position.y += moveDir.y * this.speed * deltaTime;
         
-        this._gfx.setPosition(this.position);
+        if((this._gfx.scale.x > 0 && this.position.x < this.destination.x) ||
+            (this._gfx.scale.x < 0 && this.position.x > this.destination.x))
+        {
+            this._gfx.scale.x *= -1;
+        }
+
+        this._gfx.x = this.position.x;
+        this._gfx.y = this.position.y;
     }
 
     public reachedDestination(): boolean 
@@ -79,7 +105,7 @@ export class Sheep implements IMover, IAgentBehavior
                 Math.abs(this.position.y - this.destination.y) < this._reachThreshold;
     }
 
-    public getGfx() { return this._gfx.getGfx(); }
+    public getGfx() { return this._gfx; }
     public isInYard() { return this.agentState == AgentState.InYard; }
 
     private aiPatrollingBehavior(deltaTime: number)
