@@ -1,6 +1,7 @@
 import { Graphics } from "pixi.js";
 import { Vector2 } from "../../types";
 
+//Utility class for drawing visual graphics to the screen, which abstracts Pixi.js functionality
 export abstract class GfxBase
 {
     protected _gfx: Graphics;

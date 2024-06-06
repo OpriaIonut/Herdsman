@@ -1,5 +1,6 @@
 import { Rect, Vector2 } from "../../types";
 
+//Utility class for handling math-related calculations
 export class MathUtils
 {
     static normalize(vector: Vector2): Vector2
@@ -14,7 +15,6 @@ export class MathUtils
 
     static rectContainsPoint(rect: Rect, point: Vector2)
     {
-        console.log(rect, point);
         return  point.x >= rect.x && 
                 point.x <= rect.x + rect.width && 
                 point.y >= rect.y && 
@@ -34,6 +34,7 @@ export class MathUtils
                 top <= rect.y + rect.height;
     }
 
+    //Check to see if a given path between 2 points intersects a rectangle
     static pathIntersectsRect(pointA: Vector2, pointB: Vector2, rect: Rect)
     {
         let lineMinX = Math.min(pointA.x, pointB.x);
@@ -49,6 +50,7 @@ export class MathUtils
         return !(lineMaxX < rectMinX || lineMinX > rectMaxX || lineMaxY < rectMinY || lineMinY > rectMaxY);
     }
 
+    //Check to see if a given path between 2 points intersects a rectangle, while taking into calculation the radius of the object passing through the path
     static pathIntersectsRectWithRadius(pointA: Vector2, pointB: Vector2, rect: Rect, radius: number)
     {
         let inflatedRect = {

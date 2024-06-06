@@ -1,6 +1,7 @@
-import { Assets, Loader, Sprite, Text } from "pixi.js";
+import { Assets, Sprite, Text } from "pixi.js";
 import { game } from "../../client";
 
+//Class responsible for handing the drawing of the counter for how many sheeps we have present in the yard
 export class YardCounter
 {
     private _circle!: Sprite;
@@ -10,6 +11,7 @@ export class YardCounter
 
     constructor()
     {
+        //Create the counter text element and initialize it
         this._counter = new Text();
         this._counter.setSize(36);
         this._counter.style.fill = "#ffffff";
@@ -24,6 +26,7 @@ export class YardCounter
 
     public async init()
     {
+        //To make it prettier, load a texture, which will act as a border around the counter, and initialize it
         let texture = await Assets.load("ui/EmptyCircle.png");
 
         this._circle = new Sprite();
@@ -40,6 +43,7 @@ export class YardCounter
         game.addElement(this._circle);
     }
 
+    //Increment the counter and update the visuals for it
     public increment()
     {
         this._count++;

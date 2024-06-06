@@ -15,6 +15,7 @@ yardCounter.init();
 //const sheepSpawner = new SheepSpawner(100, { min: 0.1, max: 0.3 }); //Uncomment this line to check the patrolling behavior
 const sheepSpawner = new SheepSpawner(10, { min: 1, max: 3 });
 
+//Create the yard area and add it to the game
 const yardWidth = window.innerWidth / 3;
 const yardHeight = window.innerHeight / 3;
 export const yardArea = new RectangleGfx("#b3862e", {
@@ -23,9 +24,10 @@ export const yardArea = new RectangleGfx("#b3862e", {
     width: yardWidth,
     height: yardHeight
 }, 0);
-sheepSpawner.registerInvalidArea(yardArea.getDimensions());
+sheepSpawner.registerInvalidArea(yardArea.getDimensions()); //Also register it as an invalid area, to not have sheeps spawning inside of it
 game.addElement(yardArea.getGfx());
 
+//Create the player and add him to the game
 const playerRadius = 30;
 const playerPos: Vector2 = {
     x: (window.innerWidth - playerRadius) / 2.0,
@@ -35,6 +37,7 @@ export const player = new Player("#ff0000", playerPos, playerRadius, 1000);
 game.addElement(player.getGfx());
 game.registerMover(player);
 
+//Create the input handler and move the player when we click on the screen
 const inputHandler = new InputHandler();
 inputHandler.subscribeOnClick((x: number, y: number) => {
     player.setDetination({ x: x, y: y });

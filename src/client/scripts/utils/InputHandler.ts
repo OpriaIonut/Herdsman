@@ -1,8 +1,9 @@
 import { EventCallback } from "../../types";
 
+//Class responsible for registering player input, which provides callbacks that other parts of the code can subscribe to
 export class InputHandler
 {
-    private listeners: EventCallback[] = [];
+    private _onClickListeners: EventCallback[] = [];
 
     constructor()
     {
@@ -11,15 +12,15 @@ export class InputHandler
 
     public subscribeOnClick(callback: EventCallback): void 
     {
-        this.listeners.push(callback);
+        this._onClickListeners.push(callback);
     }
     public unsubscribeOnClick(callback: EventCallback): void 
     {
-        this.listeners = this.listeners.filter(listener => listener !== callback);
+        this._onClickListeners = this._onClickListeners.filter(listener => listener !== callback);
     }
 
     private onClickHandler(e: MouseEvent)
     {
-        this.listeners.forEach(listener => listener(e.clientX, e.clientY));
+        this._onClickListeners.forEach(listener => listener(e.clientX, e.clientY));
     }
 }

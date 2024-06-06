@@ -1,5 +1,6 @@
 import { Vector2 } from "../../types";
 
+//Base interface for defining the move behavior for the objects in the game
 export interface IMover
 {
     position: Vector2;

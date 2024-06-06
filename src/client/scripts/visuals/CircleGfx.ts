@@ -1,7 +1,7 @@
-import { Graphics } from "pixi.js";
 import { Vector2 } from "../../types";
 import { GfxBase } from "./GfxBase";
 
+//Utility class for drawing circles to the screen, which abstracts Pixi.js functionality
 export class CircleGfx extends GfxBase
 {
     private _radius: number;

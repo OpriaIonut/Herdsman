@@ -5,6 +5,7 @@ export enum AgentState
     InYard
 }
 
+//Base interface for defining the ai behavior for the entities in the game
 export interface IAgentBehavior
 {
     agentState: AgentState;

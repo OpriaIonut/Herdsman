@@ -1,7 +1,7 @@
-import { Graphics } from "pixi.js";
-import { Rect, Vector2 } from "../../types";
+import { Rect } from "../../types";
 import { GfxBase } from "./GfxBase";
 
+//Utility class for drawing rectangles to the screen, which abstracts Pixi.js functionality
 export class RectangleGfx extends GfxBase
 {
     private _dimensions: Rect;

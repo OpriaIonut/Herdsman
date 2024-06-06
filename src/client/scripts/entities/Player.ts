@@ -4,6 +4,7 @@ import { IMover } from "../interfaces/IMover";
 import { CircleGfx } from "../visuals/CircleGfx";
 import { Assets, Sprite } from "pixi.js";
 
+//Class which describes the visuals for the player
 export class Player implements IMover
 {
     public position = { x: 0, y: 0 };
@@ -28,6 +29,7 @@ export class Player implements IMover
 
     private async loadSprite()
     {
+        //Load and initialize a sprite for the player
         let texture = await Assets.load("ui/Player.png");
         this._gfx.texture = texture;
         this._gfx.zIndex = 2;
@@ -45,18 +47,18 @@ export class Player implements IMover
 
     public move(deltaTime: number): void
     {
+        //Pick the direction that we need to move towards, and normalize it to simplify the calculations
         let moveDir = {
             x: this.destination.x - this.position.x,
             y: this.destination.y - this.position.y
         };
         moveDir = MathUtils.normalize(moveDir);
 
+        //Move the object in the set direction while taking into account the speed of the player
         this.position.x += moveDir.x * this.speed * deltaTime;
         this.position.y += moveDir.y * this.speed * deltaTime;
         
-        this._gfx.x = this.position.x;
-        this._gfx.y = this.position.y;
-
+        //As a small addition, flip the sprite to face the direction that the player is moving towards
         if((this._gfx.scale.x > 0 && this.position.x < this.destination.x) ||
             (this._gfx.scale.x < 0 && this.position.x > this.destination.x))
         {
