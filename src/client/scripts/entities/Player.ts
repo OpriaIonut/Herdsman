@@ -20,7 +20,7 @@ export class Player implements IMover
         this.speed = speed;
         this._radius = radius;
 
-        this._gfx = new CircleGfx(bgColor, this.position, radius);
+        this._gfx = new CircleGfx(bgColor, this.position, radius, 2);
     }
 
     public setDetination(pos: Vector2): void 

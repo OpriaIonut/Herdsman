@@ -3,7 +3,7 @@ import { MathUtils } from "../utils/MathUtils";
 import { IMover } from "../interfaces/IMover";
 import { CircleGfx } from "../visuals/CircleGfx";
 import { AgentState, IAgentBehavior } from "../interfaces/IAgentBehavior";
-import { player, yardArea } from "../../client";
+import { player, yardArea, yardCounter } from "../../client";
 
 export class Sheep implements IMover, IAgentBehavior
 {
@@ -28,7 +28,7 @@ export class Sheep implements IMover, IAgentBehavior
         this.speed = speed;
         this._radius = radius;
 
-        this._gfx = new CircleGfx(bgColor, this.position, radius);
+        this._gfx = new CircleGfx(bgColor, this.position, radius, 1);
     }
     
     public updateAgent(deltaTime: number): void 
@@ -111,6 +111,7 @@ export class Sheep implements IMover, IAgentBehavior
             }
             this.setDetination(randYardPos);
 
+            yardCounter.increment();
             Sheep._agentsFollowingPlayer--;
         }
     }

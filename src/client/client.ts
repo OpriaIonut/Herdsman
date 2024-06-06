@@ -4,11 +4,15 @@ import { Player } from "./scripts/entities/Player";
 import { RectangleGfx } from "./scripts/visuals/RectangleGfx";
 import { Vector2 } from "./types";
 import { SheepSpawner } from "./scripts/SheepSpawner";
+import { YardCounter } from "./scripts/visuals/YardCounter";
 
 export const game = new Game();
 game.init("#304f31", "gameCanvas");
 
-const sheepSpawner = new SheepSpawner(10, 2);
+export const yardCounter = new YardCounter();
+yardCounter.init();
+
+const sheepSpawner = new SheepSpawner(10, { min: 1, max: 3 });
 
 
 const yardWidth = window.innerWidth / 3;
@@ -18,7 +22,7 @@ export const yardArea = new RectangleGfx("#b3862e", {
     y: 100,
     width: yardWidth,
     height: yardHeight
-});
+}, 0);
 sheepSpawner.registerInvalidArea(yardArea.getDimensions());
 game.addElement(yardArea.getGfx());
 

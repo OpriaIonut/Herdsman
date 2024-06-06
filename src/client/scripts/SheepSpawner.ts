@@ -9,12 +9,12 @@ export class SheepSpawner
 
     private _spawnedSheeps: Sheep[] = [];
     private _maxAnimals: number = 10;
-    private _spawnInterval: number;
+    private _spawnInterval: { min: number, max: number};
 
-    constructor(maxAnimals: number, spawnInterval: number)
+    constructor(maxAnimals: number, spawnInterval: { min: number, max: number })
     {
         this._maxAnimals = maxAnimals;
-        this._spawnInterval = spawnInterval * 1000;
+        this._spawnInterval = spawnInterval;
 
         this.checkSpawnSheep();
     }
@@ -30,7 +30,8 @@ export class SheepSpawner
         if(this._spawnedSheeps.length < this._maxAnimals)
             this.spawnRandomSheep();
 
-        setTimeout(() => { this.checkSpawnSheep(); }, this._spawnInterval);
+        let nextSpawn = this._spawnInterval.min + Math.random() * (this._spawnInterval.max - this._spawnInterval.min);
+        setTimeout(() => { this.checkSpawnSheep(); }, nextSpawn * 1000);
     }
     
     private cleanList()

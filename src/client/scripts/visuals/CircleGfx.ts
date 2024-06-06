@@ -1,30 +1,22 @@
 import { Graphics } from "pixi.js";
 import { Vector2 } from "../../types";
+import { GfxBase } from "./GfxBase";
 
-export class CircleGfx
+export class CircleGfx extends GfxBase
 {
-    private _circle: Graphics;
     private _radius: number;
 
-    constructor(bgColor: string, pos: Vector2, radius: number)
+    constructor(color: string, pos: Vector2, radius: number, zIndex: number)
     {
+        super(zIndex);
         this._radius = radius;
-        this._circle = new Graphics();
-        this._circle.circle(0, 0, radius).fill({ color: bgColor });
+        this._gfx.circle(0, 0, radius).fill({ color: color });
         this.setPosition(pos);
     }
 
     public setColor(color: string)
     {
-        this._circle.clear();
-        this._circle.circle(0, 0, this._radius).fill({ color: color });
-    }
-
-    public getGfx() { return this._circle; }
-
-    public setPosition(pos: Vector2)
-    {
-        this._circle.x = pos.x;
-        this._circle.y = pos.y;
+        this._gfx.clear();
+        this._gfx.circle(0, 0, this._radius).fill({ color: color });
     }
 }

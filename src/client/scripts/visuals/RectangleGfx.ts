@@ -1,31 +1,31 @@
 import { Graphics } from "pixi.js";
 import { Rect, Vector2 } from "../../types";
+import { GfxBase } from "./GfxBase";
 
-export class RectangleGfx
+export class RectangleGfx extends GfxBase
 {
-    private _rect: Graphics;
+    private _dimensions: Rect;
 
-    constructor(bgColor: string, dimensions: Rect)
+    constructor(color: string, dimensions: Rect, zIndex: number)
     {
-        this._rect = new Graphics();
-        this._rect.rect(0, 0, dimensions.width, dimensions.height).fill({ color: bgColor });
+        super(zIndex);
+        this._dimensions = dimensions;
+        this._gfx.rect(0, 0, dimensions.width, dimensions.height).fill({ color: color });
         this.setPosition({ x: dimensions.x, y: dimensions.y });
     }
 
-    public getGfx() { return this._rect; }
-
-    public setPosition(pos: Vector2)
+    public setColor(color: string): void 
     {
-        this._rect.x = pos.x;
-        this._rect.y = pos.y;
+        this._gfx.clear();
+        this._gfx.rect(0, 0, this._dimensions.width, this._dimensions.height).fill({ color: color });
     }
 
     public getDimensions(): Rect { 
         return { 
-            x: this._rect.x, 
-            y: this._rect.y,
-            width: this._rect.width,
-            height: this._rect.height
+            x: this._gfx.x, 
+            y: this._gfx.y,
+            width: this._gfx.width,
+            height: this._gfx.height
         };
     }
 }
