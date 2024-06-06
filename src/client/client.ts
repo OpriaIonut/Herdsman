@@ -8,12 +8,12 @@ import { SheepSpawner } from "./scripts/SheepSpawner";
 export const game = new Game();
 game.init("#304f31", "gameCanvas");
 
-const sheepSpawner = new SheepSpawner(10, 3);
+const sheepSpawner = new SheepSpawner(10, 2);
 
 
 const yardWidth = window.innerWidth / 3;
 const yardHeight = window.innerHeight / 3;
-const yardArea = new RectangleGfx("#b3862e", {
+export const yardArea = new RectangleGfx("#b3862e", {
     x: window.innerWidth / 2 - yardWidth / 2,
     y: 100,
     width: yardWidth,
@@ -27,7 +27,7 @@ const playerPos: Vector2 = {
     x: (window.innerWidth - playerRadius) / 2.0,
     y: (window.innerHeight - playerRadius) / 2.0
 };
-const player = new Player("#ff0000", playerPos, playerRadius, 1000);
+export const player = new Player("#ff0000", playerPos, playerRadius, 1000);
 game.addElement(player.getGfx());
 game.registerMover(player);
 

@@ -62,6 +62,8 @@ export class SheepSpawner
 
         let sheep = new Sheep("#ffffff", randPos, sheepRadius, 500);
         game.addElement(sheep.getGfx());
+        game.registerAgent(sheep);
+        game.registerMover(sheep);
         this._spawnedSheeps.push(sheep);
     }
 }
