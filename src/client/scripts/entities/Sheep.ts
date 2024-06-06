@@ -3,8 +3,8 @@ import { MathUtils } from "../utils/MathUtils";
 import { IMover } from "../interfaces/IMover";
 import { CircleGfx } from "../visuals/CircleGfx";
 import { AgentState, IAgentBehavior } from "../interfaces/IAgentBehavior";
-import { player, yardArea, yardCounter } from "../../client";
-import { Assets, Sprite, Texture } from "pixi.js";
+import { game, player, yardArea, yardCounter } from "../../client";
+import { Assets, Circle, Sprite, Texture } from "pixi.js";
 
 //Class which describes the visuals and the functionality for a sheep
 export class Sheep implements IMover, IAgentBehavior
@@ -17,7 +17,7 @@ export class Sheep implements IMover, IAgentBehavior
     private _initialPosition: Vector2;
     private _reachThreshold = 10.0;
     private _radius: number;
-    //private _gfx: CircleGfx;
+    // private _circle: CircleGfx;
     private _gfx: Sprite;
 
     //Config which holds the properties required for the patrolling behavior
@@ -41,7 +41,7 @@ export class Sheep implements IMover, IAgentBehavior
         this._radius = radius;
 
         this._initialPosition = { x: pos.x, y: pos.y };
-        //this._gfx = new CircleGfx(bgColor, this.position, radius, 1);
+        // this._circle = new CircleGfx(bgColor, this.position, radius, 2);
 
         this._gfx = new Sprite();
         this.loadSprite();
@@ -58,8 +58,8 @@ export class Sheep implements IMover, IAgentBehavior
         this._gfx.zIndex = 1;
         this._gfx.position.x = this.position.x;
         this._gfx.position.y = this.position.y;
-        this._gfx.width = this._radius * 3;
-        this._gfx.height = this._radius * 3;
+        this._gfx.width = this._radius * 2;
+        this._gfx.height = this._radius * 2;
         this._gfx.anchor.set(0.5);
     }
 
@@ -103,7 +103,9 @@ export class Sheep implements IMover, IAgentBehavior
         this._gfx.x = this.position.x;
         this._gfx.y = this.position.y;
 
-         //As a small addition, flip the sprite to face the direction that the sheep is moving towards
+        // this._circle.setPosition(this.position);
+
+        //As a small addition, flip the sprite to face the direction that the sheep is moving towards
         if((this._gfx.scale.x > 0 && this.position.x < this.destination.x) ||
             (this._gfx.scale.x < 0 && this.position.x > this.destination.x))
         {

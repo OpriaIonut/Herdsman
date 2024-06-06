@@ -17,7 +17,8 @@ export class SheepSpawner
         this._maxAnimals = maxAnimals;
         this._spawnInterval = spawnInterval;
 
-        this.checkSpawnSheep();
+        let nextSpawn = this._spawnInterval.min + Math.random() * (this._spawnInterval.max - this._spawnInterval.min);
+        setTimeout(() => { this.checkSpawnSheep(); }, nextSpawn * 1000);
     }
 
     //Mark new areas as "invalid" for spawning the sheeps
@@ -60,7 +61,7 @@ export class SheepSpawner
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight
         };
-        const sheepRadius = 20;
+        const sheepRadius = 25;
 
         //For the picked position, go through each of the invalid areas, and in case it overlaps, run the function again, to pick a new position
         for(let index = 0; index < this._invalidAreas.length; ++index)
